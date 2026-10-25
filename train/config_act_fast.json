@@ -1,0 +1,63 @@
+{
+  "dataset": {
+    "repo_id": "lerobot/aloha_sim_transfer_cube_human",
+    "root": "data/aloha_sim_transfer_cube_human",
+    "video_backend": "pyav",
+    "use_imagenet_stats": true,
+    "image_transforms": {
+      "enable": false
+    }
+  },
+  "policy": {
+    "type": "act",
+    "device": "cuda",
+    "push_to_hub": false,
+    "n_obs_steps": 1,
+    "chunk_size": 100,
+    "n_action_steps": 100,
+    "vision_backbone": "resnet18",
+    "pretrained_backbone_weights": "ResNet18_Weights.IMAGENET1K_V1",
+    "dim_model": 512,
+    "n_heads": 8,
+    "dim_feedforward": 3200,
+    "n_encoder_layers": 4,
+    "n_decoder_layers": 1,
+    "use_vae": true,
+    "latent_dim": 32,
+    "n_vae_encoder_layers": 4,
+    "kl_weight": 10,
+    "dropout": 0.1,
+    "optimizer_lr": 0.00001,
+    "optimizer_lr_backbone": 0.00001,
+    "optimizer_weight_decay": 0.0001,
+    "use_amp": true,
+    "temporal_ensemble_coeff": null
+  },
+  "env": {
+    "type": "aloha",
+    "task": "AlohaTransferCube-v0",
+    "episode_length": 400
+  },
+  "use_policy_training_preset": true,
+  "batch_size": 8,
+  "num_workers": 4,
+  "persistent_workers": false,
+  "prefetch_factor": 1,
+  "dataloader_multiprocessing_context": "spawn",
+  "steps": 100000,
+  "seed": 1000,
+  "save_checkpoint": true,
+  "save_freq": 20000,
+  "log_freq": 200,
+  "env_eval_freq": 20000,
+  "eval": {
+    "n_episodes": 50,
+    "batch_size": 1,
+    "use_async_envs": false
+  },
+  "wandb": {
+    "enable": false
+  },
+  "output_dir": "outputs/train/act_transfer_fast",
+  "job_name": "act_transfer_fast"
+}

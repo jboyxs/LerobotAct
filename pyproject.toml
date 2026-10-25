@@ -4,7 +4,10 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "gym-aloha>=0.1.5",
+    "lerobot[all]>=0.6.1",
+]
 
 [project.scripts]
 lerobotact = "lerobotact:main"
@@ -12,3 +15,7 @@ lerobotact = "lerobotact:main"
 [build-system]
 requires = ["uv_build>=0.12.15,<0.13.0"]
 build-backend = "uv_build"
+
+# egl-probe requests CMake 2.8 policies; CMake 4 requires at least 3.5.
+[tool.uv.extra-build-variables]
+egl-probe = { CMAKE_POLICY_VERSION_MINIMUM = "3.5" }

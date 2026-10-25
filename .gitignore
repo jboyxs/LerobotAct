@@ -1,10 +1,55 @@
 # Python-generated files
 __pycache__/
-*.py[oc]
+*.py[cod]
 build/
 dist/
 wheels/
 *.egg-info
+.eggs/
 
 # Virtual environments
-.venv
+.venv/
+venv/
+
+# Local datasets and training/evaluation artifacts
+/data/
+/datasets/
+/outputs/
+/checkpoints/
+/runs/
+/wandb/
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.onnx
+pytorch_model*.bin
+*.tfevents.*
+*.log
+
+# Tool caches and test coverage
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Local credentials (keep example environment files)
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Editor/OS files and native crash dumps
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+/core
+/core.[0-9]*
