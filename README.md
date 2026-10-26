@@ -15,7 +15,7 @@ uv sync --locked
 Linux 仿真需要可用的 OpenGL/EGL 和视频依赖，Ubuntu 可安装：
 
 ```bash
-sudo apt-get install -y libgl1 libegl1 ffmpeg
+sudo apt-get install -y libgl1 libopengl0 libegl1 ffmpeg
 ```
 
 下载本项目使用的公开数据集 v3.0：
@@ -181,6 +181,37 @@ AMP 主要影响 GPU 计算精度，不能解决 CPU 共享内存不足。
 最终选用第三组作为当前提速配置。报告和日志位于 `outputs/worker_tests/`，
 最终报告为 `fast_shm64_batch8_workers4_nonpersistent_200_smoke_summary.json`。
 单次短测试不能排除间歇性退出问题；200 步未覆盖整轮数据读取后的 worker 重建。
+
+### act_transfer_fast 正式评估
+
+`eval/eval_act_fast.py` 专门评估 `outputs/train/act_transfer_fast/checkpoints/` 下的模型。
+默认加载 `last/pretrained_model`，使用 CUDA 和 EGL，逐回合评估 50 次，
+每回合最多 400 步，seed 为 123。
+
+```bash
+uv run python eval/eval_act_fast.py
+uv run python eval/eval_act_fast.py --dry-run
+```
+
+默认结果保存在 `outputs/eval/act_transfer_fast/`：
+`eval_info.json` 的 `overall.pc_success` 为成功率百分比，`videos/` 下保存执行视频。
+可先运行少量回合，再进行完整评估，使用不同输出目录保留两次结果：
+
+```bash
+uv run python eval/eval_act_fast.py --episodes 5 --output-dir outputs/eval/act_transfer_fast_5
+uv run python eval/eval_act_fast.py --episodes 50 --output-dir outputs/eval/act_transfer_fast_50
+```
+
+选择中间 checkpoint 作对照：
+
+```bash
+uv run python eval/eval_act_fast.py --checkpoint 020000
+```
+
+此时默认输出目录为 `outputs/eval/act_transfer_fast_020000`。
+也可通过 `--policy-path` 直接指定一个 `pretrained_model` 目录；
+该选项不能与 `--checkpoint` 同时使用。
+运行 `uv run python eval/eval_act_fast.py --help` 查看全部选项。
 
 ### ACT 冒烟评估
 
